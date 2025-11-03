@@ -1,0 +1,103 @@
+# Retail Analytics Configuration
+
+application:
+  name: "RetailAnalyticsBigData"
+  version: "1.0.0"
+  environment: "development"
+
+# Spark Configuration
+spark:
+  app_name: "RetailAnalytics"
+  master: "spark://spark-master:7077"
+  driver_memory: "4g"
+  executor_memory: "4g"
+  executor_cores: 4
+  sql:
+    shuffle_partitions: 200
+    adaptive_enabled: true
+  streaming:
+    checkpoint_location: "/opt/spark-data/checkpoints"
+
+# Kafka Configuration
+kafka:
+  bootstrap_servers: "kafka:29092"
+  topic: "retail_transactions"
+  group_id: "retail-consumer-group"
+  producer:
+    acks: "all"
+    retries: 3
+    compression_type: "lz4"
+  consumer:
+    auto_offset_reset: "latest"
+    enable_auto_commit: true
+
+# Elasticsearch Configuration
+elasticsearch:
+  host: "http://elasticsearch:9200"
+  timeout: 30
+  max_retries: 3
+  indices:
+    association_rules: "retail_association_rules"
+    demand_forecasts: "retail_demand_forecasts"
+    safety_stock: "retail_safety_stock"
+    realtime_revenue: "retail_realtime_revenue"
+    realtime_products: "retail_realtime_products"
+    inventory_alerts: "retail_inventory_alerts"
+    customer_segments: "retail_customer_segments"
+
+# Data Paths
+data:
+  raw: "/opt/spark-data/raw"
+  processed: "/opt/spark-data/processed"
+  checkpoints: "/opt/spark-data/checkpoints"
+  input_file: "online_retail.csv"
+
+# Batch Processing Configuration
+batch_processing:
+  association_rules:
+    min_support: 0.01
+    min_confidence: 0.3
+    min_basket_size: 2
+
+  forecasting:
+    periods: 30
+    top_n_products: 50
+    changepoint_prior_scale: 0.05
+    seasonality_mode: "multiplicative"
+
+  segmentation:
+    n_clusters: 5
+    max_iter: 20
+    reference_date: null # null means use max date + 1
+
+# Streaming Configuration
+streaming:
+  window_duration: "5 minutes"
+  slide_duration: "1 minute"
+  watermark: "10 minutes"
+  revenue_window: "5 minutes"
+  product_window: "10 minutes"
+  customer_window: "15 minutes"
+
+# Alert Configuration
+alerts:
+  high_demand_threshold: 2.5
+  low_stock_threshold: 0.3
+  price_spike_threshold: 1.5
+  return_rate_threshold: 0.2
+  fraud_max_transaction_multiplier: 5
+  fraud_hourly_transaction_limit: 50
+  fraud_hourly_spend_limit: 10000
+
+# Dashboard Configuration
+dashboard:
+  title: "Retail Analytics Dashboard"
+  refresh_interval: 30 # seconds
+  default_time_range: 15 # minutes
+  max_products_display: 100
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/retail_analytics.log"
