@@ -144,6 +144,7 @@ class CustomerSegmentationEngine:
         # 4. Evaluation
         evaluator = ClusteringEvaluator(
             featuresCol='features',
+            predictionCol='Cluster',
             metricName='silhouette',
             distanceMeasure='squaredEuclidean'
         )
@@ -282,10 +283,10 @@ def run_customer_segmentation_job(spark, input_path, output_path, es_config):
     rfm_scored = engine.create_rfm_scores(rfm)
     
     # 5. Find optimal k (optional)
-    optimal_k_results = engine.find_optimal_k(rfm, k_range=range(3, 8))
+    optimal_k_results = engine.find_optimal_k(rfm_scored, k_range=range(3, 8))
     
     # 6. Cluster customers (sử dụng k=5)
-    clustered, model = engine.cluster_customers(rfm, k=5)
+    clustered, model = engine.cluster_customers(rfm_scored, k=5)
     
     # 7. Label clusters
     labeled = engine.label_clusters(clustered)

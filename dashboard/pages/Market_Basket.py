@@ -142,7 +142,7 @@ if not filtered_rules.empty:
     
     st.dataframe(
         display_df,
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         column_config={
             "If Customer Buys →": st.column_config.TextColumn(width="large"),
@@ -192,7 +192,7 @@ with col1:
         height=400
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 with col2:
     st.markdown("#### Lift Distribution")
@@ -212,7 +212,7 @@ with col2:
         showlegend=False
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 st.markdown("---")
 
@@ -243,7 +243,7 @@ if search_product:
         
         st.dataframe(
             related_display[['From', 'To', 'Confidence', 'Lift']],
-            use_container_width=True,
+            width='stretch',
             hide_index=True
         )
         
@@ -318,7 +318,7 @@ if search_product:
             plot_bgcolor='white'
         )
         
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
         
     else:
         st.info(f"No association rules found for product '{search_product}'")
@@ -357,34 +357,36 @@ fig.update_layout(
     hovermode='x unified'
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 # Insights
 st.markdown("---")
 st.subheader("💡 Key Insights")
+if not filtered_rules.empty:
+    strongest_rule = filtered_rules.nlargest(1, 'lift').iloc[0]
 
-strongest_rule = filtered_rules.nlargest(1, 'lift').iloc[0]
+    col1, col2 = st.columns(2)
 
-col1, col2 = st.columns(2)
+    with col1:
+        st.info(f"""
+        **🎯 Strongest Association:**
+        - **If customers buy:** {strongest_rule['antecedent_str']}
+        - **They also buy:** {strongest_rule['consequent_str']}
+        - **Confidence:** {strongest_rule['confidence']:.1%}
+        - **Lift:** {strongest_rule['lift']:.2f}x more likely
+        """)
 
-with col1:
-    st.info(f"""
-    **🎯 Strongest Association:**
-    - **If customers buy:** {strongest_rule['antecedent_str']}
-    - **They also buy:** {strongest_rule['consequent_str']}
-    - **Confidence:** {strongest_rule['confidence']:.1%}
-    - **Lift:** {strongest_rule['lift']:.2f}x more likely
-    """)
-
-with col2:
-    st.success(f"""
-    **📊 Recommendations:**
-    - Place these products near each other in store
-    - Create bundle promotions
-    - Use for cross-selling in e-commerce
-    - Include in "Frequently Bought Together" sections
-    """)
-
+    with col2:
+        st.success(f"""
+        **📊 Recommendations:**
+        - Place these products near each other in store
+        - Create bundle promotions
+        - Use for cross-selling in e-commerce
+        - Include in "Frequently Bought Together" sections
+        """)
+else:
+    # Thông báo nếu không tìm thấy quy tắc nào
+    st.info("No rules found matching the current filters.")
 # Footer
 st.markdown("---")
 st.caption(f"Analysis based on FP-Growth algorithm | Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")

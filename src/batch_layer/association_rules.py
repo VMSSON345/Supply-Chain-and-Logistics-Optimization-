@@ -2,7 +2,7 @@
 Association Rules Mining using FP-Growth
 """
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, collect_list, size
+from pyspark.sql.functions import col, size, collect_set
 from pyspark.ml.fpm import FPGrowth
 import logging
 
@@ -31,7 +31,7 @@ class AssociationRulesMiner:
         
         # Nhóm các sản phẩm theo hóa đơn
         baskets = df.groupBy('InvoiceNo') \
-                    .agg(collect_list('StockCode').alias('items')) \
+                    .agg(collect_set('StockCode').alias('items')) \
                     .filter(size(col('items')) >= min_basket_size)
         
         basket_count = baskets.count()

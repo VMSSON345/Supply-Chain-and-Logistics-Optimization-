@@ -36,17 +36,21 @@ run_spark_job() {
 }
 
 # Job 1: Data Preprocessing
+sleep 5
 echo -e "\n${YELLOW}===== Job 1: Data Preprocessing =====${NC}"
 run_spark_job "Data Preprocessing" "/opt/spark-apps/batch_layer/data_preprocessing.py"
 
+sleep 5
 # Job 2: Association Rules Mining
 echo -e "\n${YELLOW}===== Job 2: Association Rules Mining =====${NC}"
 run_spark_job "Association Rules" "/opt/spark-apps/batch_layer/association_rules.py"
 
+sleep 5
 # Job 3: Demand Forecasting
 echo -e "\n${YELLOW}===== Job 3: Demand Forecasting =====${NC}"
 run_spark_job "Demand Forecasting" "/opt/spark-apps/batch_layer/demand_forecasting.py"
 
+sleep 5
 # Job 4: Customer Segmentation
 echo -e "\n${YELLOW}===== Job 4: Customer Segmentation =====${NC}"
 run_spark_job "Customer Segmentation" "/opt/spark-apps/batch_layer/customer_segmentation.py"

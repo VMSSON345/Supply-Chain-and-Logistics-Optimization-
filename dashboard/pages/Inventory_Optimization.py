@@ -71,7 +71,11 @@ col1, col2, col3, col4 = st.columns(4)
 if not df_alerts.empty:
     total_alerts = len(df_alerts)
     high_demand = len(df_alerts[df_alerts['AlertType'] == 'HIGH_DEMAND'])
-    critical_alerts = len(df_alerts[df_alerts.get('DemandIncreasePct', 0) > 5])
+    # critical_alerts = len(df_alerts[df_alerts.get('DemandIncreasePct', 0) > 5])
+    if 'DemandIncreasePct' in df_alerts.columns:
+        critical_alerts = len(df_alerts[df_alerts['DemandIncreasePct'] > 5])
+    else:
+        critical_alerts = 0
     
     with col1:
         st.metric("🔔 Total Alerts (24h)", format_number(total_alerts))
@@ -199,7 +203,7 @@ if not df_safety.empty:
         xaxis={'categoryorder':'total descending'}
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
     
     # Detailed table
     st.subheader("📋 Detailed Safety Stock Table")
@@ -214,7 +218,7 @@ if not df_safety.empty:
     
     st.dataframe(
         table_display,
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         column_config={
             "Product Code": st.column_config.TextColumn(width="small"),
@@ -250,7 +254,7 @@ if not df_safety.empty:
             color_discrete_sequence=['#1f77b4']
         )
         fig.update_layout(showlegend=False)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with col2:
         fig = px.box(
@@ -260,7 +264,7 @@ if not df_safety.empty:
             labels={'safety_stock': 'Safety Stock (units)'},
             color_discrete_sequence=['#1f77b4']
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     # Key Statistics
     st.markdown("---")

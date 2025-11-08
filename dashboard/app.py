@@ -53,7 +53,7 @@ st.sidebar.markdown("---")
 # Refresh button
 if st.sidebar.button("🔄 Refresh Data"):
     st.cache_data.clear()
-    st.experimental_rerun()
+    st.rerun()
 
 # Date range selector
 date_range = st.sidebar.date_input(
@@ -146,7 +146,7 @@ with tab1:
                 labels={'window_start': 'Time', 'TotalRevenue': 'Revenue (£)'}
             )
             fig_revenue.update_traces(line_color='#1f77b4', line_width=3)
-            st.plotly_chart(fig_revenue, use_container_width=True)
+            st.plotly_chart(fig_revenue, width='stretch')
         
         with col2:
             st.subheader("🌍 Revenue by Country")
@@ -161,7 +161,7 @@ with tab1:
                 title='Top 10 Countries by Revenue',
                 labels={'TotalRevenue': 'Revenue (£)'}
             )
-            st.plotly_chart(fig_country, use_container_width=True)
+            st.plotly_chart(fig_country, width='stretch')
         
         # Top products real-time
         st.markdown("---")
@@ -190,7 +190,7 @@ with tab1:
             ]
             top_10['TotalRevenue'] = top_10['TotalRevenue'].apply(lambda x: f"£{x:,.2f}")
             
-            st.dataframe(top_10, use_container_width=True, hide_index=True)
+            st.dataframe(top_10, width='stretch', hide_index=True)
     else:
         st.warning("⚠️ No real-time data available. Make sure streaming job is running.")
 
@@ -263,7 +263,7 @@ with tab2:
             height=500
         )
         
-        st.plotly_chart(fig_forecast, use_container_width=True)
+        st.plotly_chart(fig_forecast, width='stretch')
         
         # Statistics
         col1, col2, col3 = st.columns(3)
@@ -329,7 +329,7 @@ with tab3:
         display_df['Confidence'] = display_df['Confidence'].apply(lambda x: f"{x:.1%}")
         display_df['Lift'] = display_df['Lift'].apply(lambda x: f"{x:.2f}")
         
-        st.dataframe(display_df, use_container_width=True, hide_index=True)
+        st.dataframe(display_df, width='stretch', hide_index=True)
         
         # Visualization
         st.markdown("---")
@@ -346,7 +346,7 @@ with tab3:
         )
         
         fig_scatter.update_layout(height=500)
-        st.plotly_chart(fig_scatter, use_container_width=True)
+        st.plotly_chart(fig_scatter, width='stretch')
         
         # Product search
         st.markdown("---")
@@ -363,7 +363,7 @@ with tab3:
                 st.write(f"**Products often bought with {search_product}:**")
                 st.dataframe(
                     related_rules[['consequent_str', 'confidence', 'lift']],
-                    use_container_width=True,
+                    width='stretch',
                     hide_index=True
                 )
             else:
@@ -442,17 +442,20 @@ with tab4:
         )
         
         fig_safety.update_layout(height=500)
-        st.plotly_chart(fig_safety, use_container_width=True)
+        st.plotly_chart(fig_safety, width='stretch')
         
         # Detailed table
         st.markdown("### 📋 Detailed Safety Stock Table")
         
         display_safety = df_safety[['StockCode', 'yhat', 'safety_stock', 'reorder_point']].copy()
         display_safety.columns = ['Product Code', 'Avg Daily Demand', 'Safety Stock', 'Reorder Point']
-        display_safety = display_safety.round(0).astype(int)
+        # display_safety = display_safety.round(0).astype(int)
+        display_safety['Avg Daily Demand'] = display_safety['Avg Daily Demand'].round(0).astype(int)
+        display_safety['Safety Stock'] = display_safety['Safety Stock'].round(0).astype(int)
+        display_safety['Reorder Point'] = display_safety['Reorder Point'].round(0).astype(int)
         display_safety = display_safety.sort_values('Safety Stock', ascending=False)
         
-        st.dataframe(display_safety, use_container_width=True, hide_index=True)
+        st.dataframe(display_safety, width='stretch', hide_index=True)
     else:
         st.warning("⚠️ No safety stock data available. Run batch processing job first.")
 

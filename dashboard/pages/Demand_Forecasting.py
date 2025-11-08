@@ -141,7 +141,7 @@ fig = create_forecast_chart(
 )
 
 fig.update_layout(height=500)
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 st.markdown("---")
 
@@ -157,7 +157,7 @@ display_forecast['UpperBound'] = display_forecast['UpperBound'].round(0).astype(
 display_forecast = display_forecast[['Date', 'ForecastQuantity', 'LowerBound', 'UpperBound']]
 display_forecast.columns = ['Date', 'Forecast', 'Lower Bound', 'Upper Bound']
 
-st.dataframe(display_forecast, use_container_width=True, hide_index=True)
+st.dataframe(display_forecast, width='stretch', hide_index=True)
 
 st.markdown("---")
 
@@ -249,7 +249,7 @@ fig.update_layout(
     height=400
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width='stretch')
 
 # Footer
 st.markdown("---")

@@ -134,7 +134,7 @@ if not df_revenue.empty:
             'TotalRevenue',
             title='Revenue per Minute (Last 15 minutes)'
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with col2:
         st.subheader("🌍 Revenue by Country")
@@ -149,7 +149,7 @@ if not df_revenue.empty:
             title='Top 10 Countries',
             orientation='v'
         )
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 
 st.markdown("---")
 
@@ -176,7 +176,7 @@ if not df_products.empty:
     
     st.dataframe(
         display_df,
-        use_container_width=True,
+        width='stretch',
         hide_index=True,
         column_config={
             "Product Code": st.column_config.TextColumn("Product Code", width="small"),
@@ -196,7 +196,7 @@ if not df_products.empty:
             hole=0.4
         )
         fig.update_traces(textposition='inside', textinfo='percent')
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     
     with col2:
         fig = px.bar(
@@ -209,7 +209,7 @@ if not df_products.empty:
             color_continuous_scale='Blues'
         )
         fig.update_layout(showlegend=False, yaxis={'categoryorder':'total ascending'})
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
 else:
     st.info("No product data available")
 
@@ -249,7 +249,7 @@ if not df_revenue.empty and 'Country' in df_revenue.columns:
         height=500
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
 # Footer
 st.markdown("---")
