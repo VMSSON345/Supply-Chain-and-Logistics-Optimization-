@@ -5,7 +5,6 @@ echo "  Streaming Job Monitor"
 echo "=================================================="
 
 while true; do
-    clear
     echo "=== Kafka Topic Status ==="
     docker exec kafka kafka-run-class kafka.tools.GetOffsetShell \
         --broker-list localhost:9092 \
@@ -14,7 +13,7 @@ while true; do
     
     echo ""
     echo "=== Elasticsearch Document Counts ==="
-    curl -s http://localhost:9200/_cat/indices/retail_* | awk '{print $3, $6}'
+    curl -s http://localhost:9200/_cat/indices/retail_* | awk '{print $3, $7}'
     
     echo ""
     echo "=== Spark Streaming Status ==="

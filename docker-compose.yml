@@ -106,8 +106,20 @@ services:
       - ./src:/opt/spark-apps
       - ./data:/opt/spark-data
 
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000" # Cổng mặc định của Grafana
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on:
+      - elasticsearch
+
 volumes:
   zookeeper-data:
   zookeeper-logs:
   kafka-data:
   elasticsearch-data:
+  grafana-storage:

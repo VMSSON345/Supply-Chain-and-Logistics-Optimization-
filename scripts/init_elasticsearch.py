@@ -76,6 +76,8 @@ INDICES = {
                         'end': {'type': 'date'}
                     }
                 },
+                'WindowStart': {'type': 'date'},
+                'WindowEnd': {'type': 'date'},
                 'Country': {'type': 'keyword'},
                 'TotalRevenue': {'type': 'float'},
                 'TransactionCount': {'type': 'long'},
@@ -101,6 +103,8 @@ INDICES = {
                         'end': {'type': 'date'}
                     }
                 },
+                'WindowStart': {'type': 'date'},
+                'WindowEnd': {'type': 'date'},
                 'StockCode': {'type': 'keyword'},
                 'Description': {'type': 'text'},
                 'TotalQuantity': {'type': 'long'},

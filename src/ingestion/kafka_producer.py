@@ -114,7 +114,7 @@ class RetailDataSimulator:
                     'CustomerID': str(int(row['CustomerID'])),
                     'Country': str(row['Country']),
                     'TotalAmount': float(row['Quantity'] * row['UnitPrice']),
-                    'EventTime': datetime.now().isoformat()
+                    'EventTime': datetime.now().astimezone().isoformat()
                 }
                 
                 if self.send_transaction(transaction):
