@@ -59,7 +59,7 @@ stream:
 	@echo "Starting streaming..."
 	python src/ingestion/kafka_producer.py \
 		--csv data/raw/online_retail.csv \
-		--speed 10.0 &
+		--speed 1
 	docker exec -it spark-master spark-submit \
 		--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.elasticsearch:elasticsearch-spark-30_2.12:7.17.7 \
 		/opt/spark-apps/speed_layer/streaming_processor.py
