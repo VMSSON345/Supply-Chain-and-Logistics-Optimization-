@@ -99,41 +99,86 @@ The system follows a Lambda Architecture pattern with three layers:
 
 ### Running the System
 
-1. **Start infrastructure**
+1. **Start all services**
    ```bash
-   docker-compose up -d
+   make start
    ```
+   
+   This will:
+   - Start all Docker containers (Kafka, Elasticsearch, Spark, etc.)
+   - Wait for services to be ready
+   - Initialize Elasticsearch indices
 
-2. **Verify services are running**
+2. **Verify services are running** (Optional)
    ```bash
-   chmod +x scripts/check_services.sh
    ./scripts/check_services.sh
+   ```
+   
+   Or check manually:
+   ```bash
+   docker-compose ps
    ```
 
 3. **Run batch processing jobs**
    ```bash
-   chmod +x scripts/run_batch_jobs.sh
-   ./scripts/run_batch_jobs.sh
+   make batch
    ```
+   
+   This runs all batch processing jobs:
+   - Data preprocessing
+   - Association rules mining
+   - Demand forecasting
+   - Customer segmentation
 
-4. **Start data simulator (Kafka Producer)**
+4. **Start streaming processing**
    ```bash
-   python src/ingestion/kafka_producer.py \
-     --csv data/raw/online_retail.csv \
-     --speed 10.0
+   make stream
    ```
+   
+   This will:
+   - Start Kafka producer (data simulator)
+   - Start Spark streaming processor
 
-5. **Start streaming processor**
+5. **Launch dashboard**
    ```bash
-   docker exec -it spark-master spark-submit \
-     --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
-     /opt/spark-apps/speed_layer/streaming_processor.py
+   make dashboard
    ```
+   
+   This starts:
+   - API service
+   - Streamlit dashboard
 
-6. **Launch dashboard**
-   ```bash
-   streamlit run dashboard/app.py
-   ```
+### Other Useful Commands
+
+- **Stop all services**
+  ```bash
+  make stop
+  ```
+
+- **Restart all services**
+  ```bash
+  make restart
+  ```
+
+- **View logs**
+  ```bash
+  make logs
+  ```
+
+- **Run tests**
+  ```bash
+  make test
+  ```
+
+- **Clean up (remove containers and data)**
+  ```bash
+  make clean
+  ```
+
+- **Show all available commands**
+  ```bash
+  make help
+  ```
 
 ##  Dashboard
 
