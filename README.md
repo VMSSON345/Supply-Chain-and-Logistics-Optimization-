@@ -1,5 +1,13 @@
 #  Retail Analytics Big Data System
 
+##  Team
+
+This project is developed by a team of 3 members:
+
+- Vũ Minh Sơn - 23020424
+- Nguyễn Bá Quang - 23020412
+- Trần Doãn Thắng - 23020438
+
 A complete Lambda Architecture implementation for retail data analytics using Apache Spark, Kafka, Elasticsearch, and Streamlit.
 
 ##  Overview
@@ -371,13 +379,6 @@ chmod +x scripts/monitor_streaming.sh
 
 MIT License - see [LICENSE](LICENSE) file for details.
 
-##  Team
-
-This project is developed by a team of 3 members:
-
-- Vũ Minh Sơn - 23020424
-- Nguyễn Bá Quang - 23020412
-- Trần Doãn Thắng - 23020438
 
 ##  Acknowledgments
 
