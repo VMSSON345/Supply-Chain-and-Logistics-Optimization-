@@ -23,10 +23,10 @@ This project implements a comprehensive retail analytics system that processes t
 ##  Architecture
 
 <p align = "center">
-<img src="architechture.png" width="100%" alt="" align=center />
+<img src="architechture.png" width="100%" alt="System Architecture" align=center />
 </p>
 <p align = "center">
-  Architechture System.
+  System Architecture
 </p>
 
 The system follows a Lambda Architecture pattern with three layers:
@@ -55,6 +55,11 @@ The system follows a Lambda Architecture pattern with three layers:
    └───┬─────┘   └────┬─────┘    └─────┬─────┘
        │              │                 │
        └──────────────┴─────────────────┤
+                                        │
+                            ┌───────────▼──────────┐
+                            │     API Service      │
+                            │  (Flask Gateway)     │
+                            └───────────┬──────────┘
                                         │
                             ┌───────────▼──────────┐
                             │ Streamlit Dashboard  │
@@ -139,14 +144,19 @@ The system follows a Lambda Architecture pattern with three layers:
    - Start Kafka producer (data simulator)
    - Start Spark streaming processor
 
-5. **Launch dashboard**
+5. **Start API Service** (The dashboard communicates via this API layer)
    ```bash
+   # Open a new terminal
+   python src/serving_layer/api_service.py
+   ```
+
+6. **Launch dashboard**
+   ```bash
+   # Open a new terminal
    make dashboard
    ```
    
-   This starts:
-   - API service
-   - Streamlit dashboard
+   This starts the Streamlit dashboard interface
 
 ### Other Useful Commands
 
@@ -217,9 +227,10 @@ Access the dashboard at: `http://localhost:8501`
 - **Batch Processing:** Apache Spark (PySpark)
 - **Machine Learning:** Spark MLlib, Prophet
 - **Storage:** Elasticsearch, Local File System
+- **Serving Layer:** Flask (REST API)
 - **Visualization:** Streamlit, Plotly
 - **Orchestration:** Docker Compose
-- **Monitoring:** Grafana, Kibana
+- **Monitoring:** Kibana
 
 ##  Project Structure
 
